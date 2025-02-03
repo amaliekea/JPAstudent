@@ -16,15 +16,16 @@ public class StudentRestController {
     @Autowired
     StudentRepository studentRepository;
 
+    //GET
+
+    @GetMapping("students/{name}") public List<Student> getallstudentsbyname(@PathVariable String name) {
+        return studentRepository.findAllByName(name);
+    }
+
     @GetMapping("/students")
     public List<Student> students() {
         return studentRepository.findAll();
     }
-
-//    @GetMapping("/student/{name}")
-//    public Student getStudentByName(@PathVariable String name) {
-//        return studentRepository.findByName(name);
-//    }
 
     @GetMapping("/student/{name}")
     public ResponseEntity<Student> getStudentByName(@PathVariable String name) {
@@ -35,6 +36,7 @@ public class StudentRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    //DELETE
 
     @DeleteMapping("/student/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable int id){
@@ -47,6 +49,7 @@ public class StudentRestController {
         }
     }
 
+    //POST
 
     @PostMapping("/student")
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,18 +58,7 @@ public class StudentRestController {
         return studentRepository.save(student); //opda
     }
 
-//    @PutMapping("/student/{id}")
-//    public ResponseEntity<Student> putStudent(@PathVariable int id, @RequestBody Student student) {
-//        Optional<Student> orgStudent = studentRepository.findById(student.getId());
-//        if (orgStudent.isPresent()) {
-//            studentRepository.save(student);
-//            return ResponseEntity.ok(student);
-//           // return new ResponseEntity<>(student, HttpStatus.OK);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//           // return new ResponseEntity<>(student, HttpStatus.NOT_FOUND);
-//        }
-//    }
+    //PUT
 
     @PutMapping("/student")
     public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
@@ -79,7 +71,22 @@ public class StudentRestController {
         }
     }
 
-    @GetMapping("students/{name}") public List<Student> getallstudentsbyname(@PathVariable String name) {
-        return studentRepository.findAllByName(name);
-    }
+    //    @PutMapping("/student/{id}")
+//    public ResponseEntity<Student> putStudent(@PathVariable int id, @RequestBody Student student) {
+//        Optional<Student> orgStudent = studentRepository.findById(student.getId());
+//        if (orgStudent.isPresent()) {
+//            studentRepository.save(student);
+//            return ResponseEntity.ok(student);
+//           // return new ResponseEntity<>(student, HttpStatus.OK);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//           // return new ResponseEntity<>(student, HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+    //    @GetMapping("/student/{name}")
+//    public Student getStudentByName(@PathVariable String name) {
+//        return studentRepository.findByName(name);
+//    }
+
 }
