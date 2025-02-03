@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +16,16 @@ public class StudentRestController {
     @Autowired
     StudentRepository studentRepository;
 
-
     @GetMapping("/students")
     public List<Student> students() {
         return studentRepository.findAll();
     }
+
 //    @GetMapping("/student/{name}")
 //    public Student getStudentByName(@PathVariable String name) {
 //        return studentRepository.findByName(name);
 //    }
+
     @GetMapping("/student/{name}")
     public ResponseEntity<Student> getStudentByName(@PathVariable String name) {
         Optional<Student> studentName = studentRepository.findByName(name);
@@ -48,23 +48,34 @@ public class StudentRestController {
     }
 
 
-    @PostMapping("/poststudent")
+    @PostMapping("/student")
     @ResponseStatus(HttpStatus.CREATED)
     public Student postStudent(@RequestBody Student student) {
         System.out.println(student);
-        return studentRepository.save(student);
+        return studentRepository.save(student); //opda
     }
 
-    @PutMapping("/student/{id}")
-    public ResponseEntity<Student> putStudent(@PathVariable int id, @RequestBody Student student) {
-        Optional<Student> orgStudent = studentRepository.findById(student.getId());
+//    @PutMapping("/student/{id}")
+//    public ResponseEntity<Student> putStudent(@PathVariable int id, @RequestBody Student student) {
+//        Optional<Student> orgStudent = studentRepository.findById(student.getId());
+//        if (orgStudent.isPresent()) {
+//            studentRepository.save(student);
+//            return ResponseEntity.ok(student);
+//           // return new ResponseEntity<>(student, HttpStatus.OK);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//           // return new ResponseEntity<>(student, HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+    @PutMapping("/student")
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+        Optional<Student> orgStudent =studentRepository.findById(student.getId());
         if (orgStudent.isPresent()) {
-            studentRepository.save(student);
-            return ResponseEntity.ok(student);
-           // return new ResponseEntity<>(student, HttpStatus.OK);
+          studentRepository.save(student);
+          return new ResponseEntity<>(student, HttpStatus.OK); //body er JSON
         } else {
-            return ResponseEntity.notFound().build();
-           // return new ResponseEntity<>(student, HttpStatus.NOT_FOUND);
+           return new ResponseEntity<>(new Student(), HttpStatus.NOT_FOUND);
         }
     }
 
