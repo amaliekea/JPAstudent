@@ -73,6 +73,7 @@ public class StudentRestController {
     @PostMapping("/student")
     @ResponseStatus(HttpStatus.CREATED)
     public Student postStudent(@RequestBody Student student) {
+        System.out.println("indsætter ny student");
         System.out.println(student);
         return studentRepository.save(student); //opda
     }
