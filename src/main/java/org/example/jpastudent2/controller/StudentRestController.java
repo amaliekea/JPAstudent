@@ -20,6 +20,11 @@ public class StudentRestController {
 
     //GET
 
+    @GetMapping("/")
+    public String detteErRoden() {
+        return "Du er i roden";
+    }
+
     @GetMapping("students/{name}") public List<Student> getallstudentsbyname(@PathVariable String name) {
         return studentRepository.findAllByName(name);
     }
